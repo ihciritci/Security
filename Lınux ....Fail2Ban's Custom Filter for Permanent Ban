@@ -1,0 +1,27 @@
+1. Using Fail2Ban's Custom Filter for Permanent Ban
+
+$ sudo nano /etc/fail2ban/ip.blacklist
+
+203.0.113.1
+203.0.113.2
+203.0.113.3
+192.168.1.100
+192.168.1.101
+
+$ nano /etc/fail2ban/jail.local 
+
+[blacklist]
+enabled = true
+filter = blacklist
+logpath = /var/log/auth.log
+bantime = -1
+action = iptables-allports
+
+$ nano /etc/fail2ban/filter.d/blacklist.conf    # ıf not ... create ıt
+
+$ sudo nano /etc/fail2ban/filter.d/blacklist.conf
+
+[Definition]
+failregex = ^<HOST>$
+
+$ sudo systemctl restart fail2ban
